@@ -18,8 +18,4 @@ public interface ResourceRepository extends GraphRepository<Resource>,
     @Query("START r1=node({0}), r2=node({1}) MATCH p = shortestPath( r1-[*]-r2 ) RETURN p")
     Iterable<EntityPath<Resource, Resource>> getPath(Resource r1, Resource r2);
 
-//    @Query("LOAD CSV WITH HEADERS FROM \"file:/Users/tanvimehta/Desktop/optimus-graph/src/main/resources\" IMPORT resources.csv AS csvLine\n" +
-//            "CREATE (r:Resource { id: csvLine.id, type: csvLine.type, geo_x: csvLine.geo_x, geo_y: csvLine.geo_y, " +
-//            "floor: csvLine.floor, building: csvLine.building})")
-//    void setResource();
 }

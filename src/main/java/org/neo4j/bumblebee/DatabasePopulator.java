@@ -5,6 +5,14 @@ import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tanvimehta on 15-03-03.
  */
@@ -18,52 +26,38 @@ public class DatabasePopulator {
 
     @Transactional
     public void populateDatabase() {
-//          resourceRepository.setResource();
-        Resource room1 = new Resource("R1", "room", 1L, 2L, 3L, "Bahen");
-        Resource room2 = new Resource("R2", "room", 1L, 2L, 3L, "Bahen");
-        Resource room3 = new Resource("R3", "room", 1L, 2L, 3L, "Bahen");
-        Resource room4 = new Resource("R4", "room", 1L, 2L, 3L, "Bahen");
-        Resource room5 = new Resource("R5", "room", 1L, 2L, 3L, "Bahen");
-        Resource corridor1 = new Resource("C1", "corridor", 1L, 2L, 3L, "Bahen");
-        Resource corridor2 = new Resource("C2", "corridor", 1L, 2L, 3L, "Bahen");
-        Resource corridor3 = new Resource("C3", "corridor", 1L, 2L, 3L, "Bahen");
 
-            resourceRepository.save(room1);
-            resourceRepository.save(room2);
-            resourceRepository.save(room3);
-            resourceRepository.save(room4);
-            resourceRepository.save(room5);
-            resourceRepository.save(corridor1);
-            resourceRepository.save(corridor2);
-            resourceRepository.save(corridor3);
+        // Reads csv resources file and creates resource nodes for each line in the file
+        Path path = Paths.get("src/main/resources/resources.csv");
+        List<String> lines = new ArrayList<String>();
+        try {
+            lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            room1 = resourceRepository.findById(room1.getId());
-            room1.connectsTo(corridor1);
-            resourceRepository.save(room1);
+        for (String line: lines) {
+            String[] resourceData = line.split(",");
+            Resource resource = new Resource(resourceData[0], resourceData[1], Long.parseLong(resourceData[2]),
+                    Long.parseLong(resourceData[3]), Long.parseLong(resourceData[4]), resourceData[5]);
+            resourceRepository.save(resource);
+        }
 
-            corridor1 = resourceRepository.findById(corridor1.getId());
-            corridor1.connectsTo(room2);
-            corridor1.connectsTo(room3);
-            resourceRepository.save(corridor1);
 
-            room2 = resourceRepository.findById(room2.getId());
-            room2.connectsTo(corridor2);
-            resourceRepository.save(room2);
+        // Reads csv file for relationships between resources. Creates relationship for each existing resource node
+        Path relpath = Paths.get("src/main/resources/relationships.csv");
+        List<String> relLines = new ArrayList<String>();
+        try {
+            relLines = Files.readAllLines(relpath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            corridor2 = resourceRepository.findById(corridor2.getId());
-            corridor2.connectsTo(room5);
-            resourceRepository.save(corridor2);
-
-            room5 = resourceRepository.findById(room5.getId());
-            room5.connectsTo(room4);
-            resourceRepository.save(room5);
-
-            room4 = resourceRepository.findById(room4.getId());
-            room4.connectsTo(corridor3);
-            resourceRepository.save(room4);
-
-            corridor3 = resourceRepository.findById(corridor3.getId());
-            corridor3.connectsTo(room3);
-            resourceRepository.save(corridor3);
+        for (String line: relLines) {
+            String[] relData = line.split(",");
+            Resource resource1 = resourceRepository.findById(relData[0]);
+            resource1.connectsTo(resourceRepository.findById(relData[1]));
+            resourceRepository.save(resource1);
+        }
     }
 }

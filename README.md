@@ -5,7 +5,7 @@ To run the application:
 mvn clean 
 mvn install -Djetty.port=9999 jetty:run
 
-To populate the db:
+To populate the db:(Assumes that resources.csv and relationships.csv are populated)
 /populate
 Get resource by ID:
 /resources/id
