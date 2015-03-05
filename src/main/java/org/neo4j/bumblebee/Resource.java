@@ -19,9 +19,17 @@ public class Resource {
 
     String type;
 
-    Long geo_x;
+    Long min_x;
 
-    Long geo_y;
+    Long max_x;
+
+    Long min_y;
+
+    Long max_y;
+
+    Long entrance_x;
+
+    Long entrance_y;
 
     Long floor;
 
@@ -42,12 +50,16 @@ public class Resource {
 
     }
 
-    public Resource(String id, String type, Long geo_x,
-                    Long geo_y, Long floor, String building) {
+    public Resource(String id, String type, Long min_x, Long max_x,
+                    Long min_y, Long max_y, Long entrance_x, Long entrance_y, Long floor, String building) {
         this.id = id;
         this.type = type;
-        this.geo_x = geo_x;
-        this.geo_y = geo_y;
+        this.min_x = min_x;
+        this.max_x = max_x;
+        this.min_y = min_y;
+        this.max_y = max_y;
+        this.entrance_x = entrance_x;
+        this.entrance_y = entrance_y;
         this.floor = floor;
         this.building = building;
     }
@@ -63,8 +75,15 @@ public class Resource {
     @Override
     public String toString() {
         return "Resource{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", min_x=" + String.valueOf(min_x) +
+                ", max_x=" + String.valueOf(max_x) +
+                ", min_y=" + String.valueOf(min_y) +
+                ", max_y=" + String.valueOf(max_y) +
+                ", entrance_x=" + String.valueOf(entrance_x) +
+                ", entrance_y=" + String.valueOf(entrance_y) +
+                ", floor=" + floor +
                 ", building='" + building + '\'' +
                 '}';
     }

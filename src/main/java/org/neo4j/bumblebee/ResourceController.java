@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ResourceController {
 
-    private static final String DELIMITER = ";";
+    private static final String DELIMITER = "->\n";
     @Autowired
     private ResourceRepository resourceRepository;
 
@@ -49,21 +49,26 @@ public class ResourceController {
         return resourceRepository.findById(id).toString();
     }
 
-    @RequestMapping(value = "/path/{id1}/{id2}", method = RequestMethod.GET)
+    @RequestMapping(value = "/path/{x}/{y}/{floor}/{id2}", method = RequestMethod.GET)
     public
     @ResponseBody
-    String getShortestPath(@PathVariable String id1, @PathVariable String id2) {
-        Resource r1 = resourceRepository.findById(id1);
+    String getShortestPath(@PathVariable Long x, @PathVariable Long y, @PathVariable Long floor,
+                           @PathVariable String id2) {
+
+        Resource r1 = resourceRepository.getResourceByPoint(x, y, floor);
+        if (r1 == null) {
+            return "Oops! Could not find you! Please try again later.";
+        }
         Resource r2 = resourceRepository.findById(id2);
 
-        String path = r1.getId();
+        String path = "";
         for (EntityPath<Resource, Resource> entityPath : resourceRepository.getPath(r1, r2)) {
             Iterable<Resource> rnodes = entityPath.nodeEntities();
             for (Resource rnode : rnodes) {
-                path = path + DELIMITER + rnode.getId();
+                path = path + rnode.toString() + DELIMITER;
             }
         }
 
-        path = path + DELIMITER + r2.getId();
-        return path;    }
+        return path;
+    }
 }

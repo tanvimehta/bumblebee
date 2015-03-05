@@ -39,7 +39,9 @@ public class DatabasePopulator {
         for (String line: lines) {
             String[] resourceData = line.split(",");
             Resource resource = new Resource(resourceData[0], resourceData[1], Long.parseLong(resourceData[2]),
-                    Long.parseLong(resourceData[3]), Long.parseLong(resourceData[4]), resourceData[5]);
+                    Long.parseLong(resourceData[3]), Long.parseLong(resourceData[4]), Long.parseLong(resourceData[5]),
+                    Long.parseLong(resourceData[6]), Long.parseLong(resourceData[7]), Long.parseLong(resourceData[8]),
+                    resourceData[9]);
             resourceRepository.save(resource);
         }
 
