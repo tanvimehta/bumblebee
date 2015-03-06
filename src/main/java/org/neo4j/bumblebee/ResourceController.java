@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.*;
+
 /**
  * Created by tanvimehta on 15-03-03.
  */
@@ -70,5 +72,71 @@ public class ResourceController {
         }
 
         return path;
+    }
+
+    @RequestMapping(value = "/findResources/{type}/{x}/{y}/{floor}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String findResources(@PathVariable String type, @PathVariable Long x, @PathVariable Long y,
+                                @PathVariable Long floor) {
+        Resource r = resourceRepository.getResourceByPoint(x, y, floor);
+        List<Resource> eligibleResources = resourceRepository.getResourcesByType(type);
+        Map<String, Integer> resourceIdToDistCount = new HashMap<>();
+
+        if (eligibleResources.size() == 0)
+            return "Oops! There are no " + type + "s near you! Please try again later.";
+
+        for(Resource eligibleResource: eligibleResources) {
+            Integer count = 0;
+            for (EntityPath<Resource, Resource> entityPath : resourceRepository.getPath(r, eligibleResource)) {
+                Iterable<Resource> rnodes = entityPath.nodeEntities();
+                for (Resource rnode : rnodes) {
+                    count++;
+                }
+            }
+            resourceIdToDistCount.put(eligibleResource.getId(), count);
+        }
+
+        LinkedHashMap<String, Integer> sortedResources = sortHashMapByValuesD(resourceIdToDistCount);
+        Integer index = 0;
+        String closestResources = "";
+        Iterator<String> iter = sortedResources.keySet().iterator();
+        while (iter.hasNext() && index < 5) {
+            closestResources = closestResources + iter.next() + DELIMITER;
+            index ++;
+        }
+        return closestResources;
+    }
+
+
+    public LinkedHashMap sortHashMapByValuesD(Map passedMap) {
+        List mapKeys = new ArrayList(passedMap.keySet());
+        List mapValues = new ArrayList(passedMap.values());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        LinkedHashMap sortedMap = new LinkedHashMap();
+
+        Iterator valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Object val = valueIt.next();
+            Iterator keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                Object key = keyIt.next();
+                String comp1 = passedMap.get(key).toString();
+                String comp2 = val.toString();
+
+                if (comp1.equals(comp2)){
+                    passedMap.remove(key);
+                    mapKeys.remove(key);
+                    sortedMap.put((String)key, (Integer)val);
+                    break;
+                }
+
+            }
+
+        }
+        return sortedMap;
     }
 }

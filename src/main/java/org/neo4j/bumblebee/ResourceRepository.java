@@ -6,6 +6,8 @@ import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.neo4j.repository.NamedIndexRepository;
 import org.springframework.data.neo4j.repository.RelationshipOperationsRepository;
 
+import java.util.List;
+
 /**
  * Created by tanvimehta on 15-03-03.
  */
@@ -21,4 +23,7 @@ public interface ResourceRepository extends GraphRepository<Resource>,
     @Query("START r=node(*) WHERE HAS(r.floor) AND HAS(r.min_x) AND HAS(r.max_x) AND HAS(r.min_y) AND HAS(r.max_y) " +
             "AND r.floor = {2} AND r.min_x < {0} AND r.max_x > {0} AND r.min_y < {1} AND r.max_y > {1} RETURN r")
     Resource getResourceByPoint(Long x, Long y, Long floor);
+
+    @Query("START r=node(*) WHERE HAS(r.type) AND r.type = {0} RETURN r")
+    List<Resource> getResourcesByType(String type);
 }

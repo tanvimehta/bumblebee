@@ -11,6 +11,8 @@ Get resource by ID:
 /resources/id
 
 Get shortest path between 2 resources:
-/resources/id1/id2
+(Finds shortest path from resource 1(with given coordinates to resource 2(with given id))
+/resources/x/y/floor/id2
 
-
+Find 5 nearest locations of particular type (sorted by increasing order of distance)
+/findResources/{type}/{x}/{y}/{floor}
