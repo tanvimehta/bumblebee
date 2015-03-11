@@ -38,10 +38,10 @@ public class DatabasePopulator {
 
         for (String line: lines) {
             String[] resourceData = line.split(",");
-            Resource resource = new Resource(resourceData[0], resourceData[1], Long.parseLong(resourceData[2]),
-                    Long.parseLong(resourceData[3]), Long.parseLong(resourceData[4]), Long.parseLong(resourceData[5]),
-                    Long.parseLong(resourceData[6]), Long.parseLong(resourceData[7]), Long.parseLong(resourceData[8]),
-                    resourceData[9]);
+            Resource resource = new Resource(resourceData[0], resourceData[1], Float.parseFloat(resourceData[2]),
+                    Float.parseFloat(resourceData[3]), Float.parseFloat(resourceData[4]), Float.parseFloat(resourceData[5]),
+                    Float.parseFloat(resourceData[6]), Float.parseFloat(resourceData[7]),
+                    resourceData[8], Long.parseLong(resourceData[9]));
             resourceRepository.save(resource);
         }
 

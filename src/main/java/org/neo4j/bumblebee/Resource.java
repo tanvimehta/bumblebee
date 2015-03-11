@@ -19,17 +19,17 @@ public class Resource {
 
     String type;
 
-    Long min_x;
+    Float min_lat;
 
-    Long max_x;
+    Float max_lat;
 
-    Long min_y;
+    Float min_long;
 
-    Long max_y;
+    Float max_long;
 
-    Long entrance_x;
+    Float entrance_lat;
 
-    Long entrance_y;
+    Float entrance_long;
 
     Long floor;
 
@@ -50,16 +50,16 @@ public class Resource {
 
     }
 
-    public Resource(String id, String type, Long min_x, Long max_x,
-                    Long min_y, Long max_y, Long entrance_x, Long entrance_y, Long floor, String building) {
+    public Resource(String id, String type, Float max_lat, Float min_long,
+                    Float min_lat, Float max_long, Float entrance_lat, Float entrance_long, String building, Long floor) {
         this.id = id;
         this.type = type;
-        this.min_x = min_x;
-        this.max_x = max_x;
-        this.min_y = min_y;
-        this.max_y = max_y;
-        this.entrance_x = entrance_x;
-        this.entrance_y = entrance_y;
+        this.min_lat = min_lat;
+        this.max_lat = max_lat;
+        this.min_long = min_long;
+        this.max_long = max_long;
+        this.entrance_lat = entrance_lat;
+        this.entrance_long = entrance_long;
         this.floor = floor;
         this.building = building;
     }
@@ -77,12 +77,12 @@ public class Resource {
         return "Resource{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
-                ", min_x=" + String.valueOf(min_x) +
-                ", max_x=" + String.valueOf(max_x) +
-                ", min_y=" + String.valueOf(min_y) +
-                ", max_y=" + String.valueOf(max_y) +
-                ", entrance_x=" + String.valueOf(entrance_x) +
-                ", entrance_y=" + String.valueOf(entrance_y) +
+                ", min_lat=" + String.valueOf(min_lat) +
+                ", max_lat=" + String.valueOf(max_lat) +
+                ", min_long=" + String.valueOf(min_long) +
+                ", max_long=" + String.valueOf(max_long) +
+                ", entrance_lat=" + String.valueOf(entrance_lat) +
+                ", entrance_long=" + String.valueOf(entrance_long) +
                 ", floor=" + floor +
                 ", building='" + building + '\'' +
                 '}';

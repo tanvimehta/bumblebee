@@ -54,7 +54,7 @@ public class ResourceController {
     @RequestMapping(value = "/path/{x}/{y}/{floor}/{id2}", method = RequestMethod.GET)
     public
     @ResponseBody
-    String getShortestPath(@PathVariable Long x, @PathVariable Long y, @PathVariable Long floor,
+    String getShortestPath(@PathVariable Float x, @PathVariable Float y, @PathVariable Long floor,
                            @PathVariable String id2) {
 
         Resource r1 = resourceRepository.getResourceByPoint(x, y, floor);
@@ -77,7 +77,7 @@ public class ResourceController {
     @RequestMapping(value = "/findResources/{type}/{x}/{y}/{floor}", method = RequestMethod.GET)
     public
     @ResponseBody
-    String findResources(@PathVariable String type, @PathVariable Long x, @PathVariable Long y,
+    String findResources(@PathVariable String type, @PathVariable Float x, @PathVariable Float y,
                                 @PathVariable Long floor) {
         Resource r = resourceRepository.getResourceByPoint(x, y, floor);
         List<Resource> eligibleResources = resourceRepository.getResourcesByType(type);

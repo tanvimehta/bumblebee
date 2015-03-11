@@ -1,7 +1,7 @@
 # bumblebee
 Neo4J Database Web Application for Resources
 
-To run the application:
+To run the application:(Runs server on port 9999)
 mvn clean 
 mvn install -Djetty.port=9999 jetty:run
 
