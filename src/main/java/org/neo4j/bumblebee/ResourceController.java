@@ -20,7 +20,7 @@ import java.util.*;
 @Controller
 public class ResourceController {
 
-    private static final String DELIMITER = "->\n";
+    private static final String DELIMITER = ",";
     @Autowired
     private ResourceRepository resourceRepository;
 
@@ -76,7 +76,7 @@ public class ResourceController {
             }
         }
 
-        return path;
+        return path.substring(0, path.length() - 1);
     }
 
     @RequestMapping(value = "/findResources/{type}/{x}/{y}/{floor}", method = RequestMethod.GET)
@@ -115,7 +115,10 @@ public class ResourceController {
         String closestResources = "";
         Iterator<String> iter = sortedResources.keySet().iterator();
         while (iter.hasNext() && index < 5) {
-            closestResources = closestResources + iter.next() + DELIMITER;
+            closestResources = closestResources + iter.next() ;
+            if (index < 4) {
+                closestResources += DELIMITER;
+            }
             index ++;
         }
         return closestResources;
