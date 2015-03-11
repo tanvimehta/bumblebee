@@ -26,4 +26,8 @@ public interface ResourceRepository extends GraphRepository<Resource>,
 
     @Query("START r=node(*) WHERE HAS(r.type) AND r.type = {0} RETURN r")
     List<Resource> getResourcesByType(String type);
+
+//    @Query("START r=node(*) WHERE HAS(r.entrance_lat) AND HAS(r.entrance_long) AND HAS(r.floor) AND r.floor = {2} " +
+//            "WITH r, ((r.entrance_lat - {0})^2 + (r.entrance_long - {1})^2) RETURN r")
+//    Resource getNearestResource(Float x, Float y, Long floor);
 }

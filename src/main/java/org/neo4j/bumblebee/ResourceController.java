@@ -58,9 +58,14 @@ public class ResourceController {
                            @PathVariable String id2) {
 
         Resource r1 = resourceRepository.getResourceByPoint(x, y, floor);
+//        if (r1 == null) {
+//            r1 = resourceRepository.getNearestResource(x, y, floor);
+//        }
+
         if (r1 == null) {
             return "Oops! Could not find you! Please try again later.";
         }
+
         Resource r2 = resourceRepository.findById(id2);
 
         String path = "";
@@ -80,6 +85,14 @@ public class ResourceController {
     String findResources(@PathVariable String type, @PathVariable Float x, @PathVariable Float y,
                                 @PathVariable Long floor) {
         Resource r = resourceRepository.getResourceByPoint(x, y, floor);
+//        if (r == null) {
+//            r = resourceRepository.getNearestResource(x, y, floor);
+//        }
+
+        if (r == null) {
+            return "Oops! Could not find you! Please try again later.";
+        }
+
         List<Resource> eligibleResources = resourceRepository.getResourcesByType(type);
         Map<String, Integer> resourceIdToDistCount = new HashMap<>();
 
@@ -94,7 +107,7 @@ public class ResourceController {
                     count++;
                 }
             }
-            resourceIdToDistCount.put(eligibleResource.getId(), count);
+            resourceIdToDistCount.put(eligibleResource.toString(), count);
         }
 
         LinkedHashMap<String, Integer> sortedResources = sortHashMapByValuesD(resourceIdToDistCount);
