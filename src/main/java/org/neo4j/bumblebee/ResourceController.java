@@ -2,16 +2,12 @@ package org.neo4j.bumblebee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.core.EntityPath;
-import org.springframework.data.neo4j.mapping.Neo4jNodeConverter;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -117,10 +113,10 @@ public class ResourceController {
         String closestResources = "";
         Iterator<String> iter = sortedResources.keySet().iterator();
         while (iter.hasNext() && index < 5) {
-            closestResources = closestResources + iter.next() ;
-            if (index < 4) {
+            if (index != 0) {
                 closestResources += DELIMITER;
             }
+            closestResources = closestResources + iter.next() ;
             index ++;
         }
         return closestResources;
