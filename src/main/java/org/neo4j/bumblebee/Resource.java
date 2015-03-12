@@ -87,4 +87,12 @@ public class Resource {
                 ", building='" + building + '\'' +
                 '}';
     }
+
+    public Float getEntrance_lat() {
+        return entrance_lat;
+    }
+
+    public Float getEntrance_long() {
+        return entrance_long;
+    }
 }

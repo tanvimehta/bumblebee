@@ -6,7 +6,9 @@ import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.neo4j.repository.NamedIndexRepository;
 import org.springframework.data.neo4j.repository.RelationshipOperationsRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tanvimehta on 15-03-03.
@@ -27,7 +29,7 @@ public interface ResourceRepository extends GraphRepository<Resource>,
     @Query("START r=node(*) WHERE HAS(r.type) AND r.type = {0} RETURN r")
     List<Resource> getResourcesByType(String type);
 
-    @Query("START r=node(*) WHERE HAS(r.entrance_lat) AND HAS(r.entrance_long) AND HAS(r.floor) AND r.floor = {2} " +
-            "WITH r, ((r.entrance_lat - {0})^2 + (r.entrance_long - {1})^2) AS value RETURN min(value), r")
-    List<Resource> getNearestResource(Float x, Float y, Long floor);
+    @Query("START r=node(*) WHERE HAS(r.entrance_lat) AND HAS(r.entrance_long) AND HAS(r.floor) AND r.floor = {0} " +
+            "RETURN r")
+    List<Resource> getAllResourcesOnFloor(Long floor);
 }

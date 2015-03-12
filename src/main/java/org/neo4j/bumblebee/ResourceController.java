@@ -2,6 +2,7 @@ package org.neo4j.bumblebee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.core.EntityPath;
+import org.springframework.data.neo4j.mapping.Neo4jNodeConverter;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.util.*;
 public class ResourceController {
 
     private static final String DELIMITER = ",";
+
     @Autowired
     private ResourceRepository resourceRepository;
 
@@ -58,9 +60,9 @@ public class ResourceController {
                            @PathVariable String id2) {
 
         Resource r1 = resourceRepository.getResourceByPoint(x, y, floor);
-//        if (r1 == null) {
-//            r1 = resourceRepository.getNearestResource(x, y, floor);
-//        }
+        if (r1 == null) {
+            r1 = getNearestResource(x, y, floor);
+        }
 
         if (r1 == null) {
             return "Oops! Could not find you! Please try again later.";
@@ -85,9 +87,9 @@ public class ResourceController {
     String findResources(@PathVariable String type, @PathVariable Float x, @PathVariable Float y,
                                 @PathVariable Long floor) {
         Resource r = resourceRepository.getResourceByPoint(x, y, floor);
-//        if (r == null) {
-//            r = resourceRepository.getNearestResource(x, y, floor);
-//        }
+        if (r == null) {
+            r = getNearestResource(x, y, floor);
+        }
 
         if (r == null) {
             return "Oops! Could not find you! Please try again later.";
@@ -154,5 +156,25 @@ public class ResourceController {
 
         }
         return sortedMap;
+    }
+
+    public Resource getNearestResource(Float x, Float y, Long floor) {
+        List<Resource> resources = resourceRepository.getAllResourcesOnFloor(floor);
+        Map<Resource, Double> rToDist = new HashMap<Resource, Double>();
+        Resource result = null;
+
+        for (Resource r: resources) {
+            Double dist = Math.sqrt(Math.pow(x-r.getEntrance_lat(), 2) + Math.pow(y-r.getEntrance_long(), 2));
+            rToDist.put(r, dist);
+        }
+        Double min = Double.valueOf(Double.POSITIVE_INFINITY );
+        for (Map.Entry<Resource, Double> e:rToDist.entrySet()) {
+            if (min.compareTo(e.getValue())>0) {
+                result = e.getKey();
+                min = e.getValue();
+            }
+        }
+
+        return result;
     }
 }
