@@ -19,7 +19,7 @@ public interface ResourceRepository extends GraphRepository<Resource>,
 
     Resource findById(String id);
 
-    @Query("START r1=node({0}), r2=node({1}) MATCH p = shortestPath( r1-[*]-r2 ) RETURN p")
+    @Query("START r1=node({0}), r2=node({1}) MATCH p = shortestPath( r1-[*..200]-r2 ) RETURN p")
     Iterable<EntityPath<Resource, Resource>> getPath(Resource r1, Resource r2);
 
     @Query("START r=node(*) WHERE HAS(r.floor) AND HAS(r.min_lat) AND HAS(r.max_lat) AND HAS(r.min_long) AND HAS(r.max_long) " +
