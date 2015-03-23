@@ -75,7 +75,7 @@ public class ResourceController {
         }
 
         if (path == "") {
-            return "Oops! Could not find you! Please try again later.";
+            return "Oops! Could not find a path to your desired location! Please try again later.";
         }
         
         return path.substring(0, path.length() - 1);
