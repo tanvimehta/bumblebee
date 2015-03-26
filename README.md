@@ -1,9 +1,9 @@
-# bumblebee
+-# bumblebee
 Neo4J Database Web Application for Resources
 
-To run the application:(Runs server on port 9999)
+To run the application:(Runs server on port 9090)
 mvn clean 
-mvn install -Djetty.port=9999 jetty:run
+mvn install -Djetty.port=9090 jetty:run
 
 To populate the db:(Assumes that resources.csv and relationships.csv are populated)
 /populate
