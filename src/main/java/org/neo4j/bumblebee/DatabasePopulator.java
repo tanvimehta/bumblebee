@@ -41,7 +41,7 @@ public class DatabasePopulator {
             Resource resource = new Resource(resourceData[0], resourceData[1], Float.parseFloat(resourceData[2]),
                     Float.parseFloat(resourceData[3]), Float.parseFloat(resourceData[4]), Float.parseFloat(resourceData[5]),
                     Float.parseFloat(resourceData[6]), Float.parseFloat(resourceData[7]),
-                    resourceData[8], Long.parseLong(resourceData[9]));
+                    resourceData[8], Long.parseLong(resourceData[9]), resourceData[10]);
             resourceRepository.save(resource);
         }
 

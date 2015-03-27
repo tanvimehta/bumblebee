@@ -35,6 +35,8 @@ public class Resource {
 
     String building;
 
+    String description;
+
     @RelatedTo(type = "CONNECTS_TO", direction = Direction.BOTH)
     @Fetch
     Set<Resource> neighbours;
@@ -51,7 +53,7 @@ public class Resource {
     }
 
     public Resource(String id, String type, Float max_lat, Float min_long,
-                    Float min_lat, Float max_long, Float entrance_lat, Float entrance_long, String building, Long floor) {
+                    Float min_lat, Float max_long, Float entrance_lat, Float entrance_long, String building, Long floor, String description) {
         this.id = id;
         this.type = type;
         this.min_lat = min_lat;
@@ -62,6 +64,7 @@ public class Resource {
         this.entrance_long = entrance_long;
         this.floor = floor;
         this.building = building;
+        this.description = description;
     }
 
     public String getId() {
@@ -85,6 +88,7 @@ public class Resource {
                 ", entrance_long=" + String.valueOf(entrance_long) +
                 ", floor=" + floor +
                 ", building='" + building + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 
